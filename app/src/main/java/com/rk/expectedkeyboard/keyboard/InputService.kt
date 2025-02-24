@@ -2,10 +2,8 @@ package com.rk.expectedkeyboard.keyboard
 
 import android.inputmethodservice.InputMethodService
 import android.view.View
-import android.widget.Button
-import java.lang.ref.WeakReference
-import com.rk.expectedkeyboard.R
 import com.rk.expectedkeyboard.keyboard.ui.KeyboardUI
+import java.lang.ref.WeakReference
 
 var inputService = WeakReference<InputService?>(null)
 
