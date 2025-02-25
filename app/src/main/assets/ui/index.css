@@ -1,0 +1,37 @@
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Space between keys */
+    margin-bottom: 5px;
+}
+
+.key {
+    width: 8%;
+    height: 50px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.2s, transform 0.1s;
+}
+
+/* Pressed effect */
+.key:active {
+    background: #dcdcdc;
+    transform: scale(0.95); /* Slight shrink effect */
+}
+
+/* Special keys (Shift, Backspace, Space, Enter) */
+.shift, .backspace, .symbol, .enter, .space {
+    width: 12%; /* Slightly bigger */
+    background: #dddddd;
+    font-size: 16px;
+}
+
+/* Spacebar specific styling */
+.space {
+    width: 40%; /* Make spacebar longer */
+}

@@ -44,7 +44,6 @@ class KeyboardUI(val inputService: InputService) : WebView(inputService) {
         }
 
 
-
         addJavascriptInterface(KeyboardInterface(this), "Keyboard")
 
         layoutParams = ViewGroup.LayoutParams(
@@ -52,7 +51,7 @@ class KeyboardUI(val inputService: InputService) : WebView(inputService) {
             _height
         )
 
-        loadUrl("https://www.google.com")
+        loadUrl("file:///android_asset/ui/index.html")
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
