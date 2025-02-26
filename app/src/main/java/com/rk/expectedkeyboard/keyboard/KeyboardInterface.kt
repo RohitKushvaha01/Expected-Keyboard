@@ -1,8 +1,14 @@
 package com.rk.expectedkeyboard.keyboard
 
+import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.webkit.JavascriptInterface
 import androidx.annotation.Keep
-import com.rk.expectedkeyboard.keyboard.ui.KeyboardUI
+import androidx.annotation.RequiresApi
+import com.rk.expectedkeyboard.ui.KeyboardUI
 
 @Keep
 class KeyboardInterface(val keyboardUI: KeyboardUI) {
@@ -16,14 +22,41 @@ class KeyboardInterface(val keyboardUI: KeyboardUI) {
     @Keep
     @JavascriptInterface
     fun commitText(text: String, p: Int) {
+        vibrate()
         keyboardUI.inputService.currentInputConnection.commitText(text, p)
+
     }
 
     //  Deletes a character before the cursor
     @Keep
     @JavascriptInterface
     fun deleteLastCharacter() {
+        vibrate()
         keyboardUI.inputService.currentInputConnection.deleteSurroundingText(1, 0)
+    }
+
+    @Keep
+    @JavascriptInterface
+    fun vibrate(duration: Int = 42) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            val vibratorManager = keyboardUI.context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            val vibrator = vibratorManager.defaultVibrator
+            val effect = VibrationEffect.createOneShot(duration.toLong(), VibrationEffect.DEFAULT_AMPLITUDE)
+            vibrator.vibrate(effect)
+        }else{
+            //android 11 or below
+            val vibrator = keyboardUI.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // Android 8.0+ (API 26+)
+                val effect = VibrationEffect.createOneShot(duration.toLong(), VibrationEffect.DEFAULT_AMPLITUDE)
+                vibrator.vibrate(effect)
+            } else {
+                // Android 7.1 and below (API < 26)
+                vibrator.vibrate(duration.toLong()) // Deprecated but works for older versions
+            }
+
+        }
+
     }
 
     //  Deletes a specified number of characters before the cursor

@@ -1,12 +1,15 @@
-package com.rk.expectedkeyboard.keyboard.ui
+package com.rk.expectedkeyboard.ui
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
-import android.view.ViewGroup
-import android.webkit.WebView
 import com.rk.expectedkeyboard.keyboard.InputService
 import com.rk.expectedkeyboard.keyboard.KeyboardInterface
 import android.content.res.Configuration
+import android.os.Handler
+import android.os.Looper
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.widget.Toast
 
 @SuppressLint("ViewConstructor", "SetJavaScriptEnabled")
 class KeyboardUI(val inputService: InputService) : WebView(inputService) {
@@ -25,8 +28,8 @@ class KeyboardUI(val inputService: InputService) : WebView(inputService) {
 
     fun setKeyboardHeight(height: Int){
         _height = height
-        layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
+        layoutParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
             _height
         )
     }
@@ -45,9 +48,17 @@ class KeyboardUI(val inputService: InputService) : WebView(inputService) {
 
 
         addJavascriptInterface(KeyboardInterface(this), "Keyboard")
+        addJavascriptInterface(object{
+            @JavascriptInterface
+            fun showToast(text: String?){
+                Handler(Looper.getMainLooper()).post{
+                    Toast.makeText(inputService,text.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }, "Android")
 
-        layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
+        layoutParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
             _height
         )
 

@@ -2,8 +2,7 @@ package com.rk.expectedkeyboard.keyboard
 
 import android.inputmethodservice.InputMethodService
 import android.view.View
-import com.rk.expectedkeyboard.keyboard.ui.KeyboardUI
-import java.io.File
+import com.rk.expectedkeyboard.ui.KeyboardUI
 import java.lang.ref.WeakReference
 
 class InputService : InputMethodService() {
